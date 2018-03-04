@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jbpm.bpmn2.handler.SignallingTaskHandlerDecorator;
+import org.jbpm.process.workitem.email.EmailWorkItemHandler;
 import org.jbpm.runtime.manager.impl.DefaultRegisterableItemsFactory;
-import org.jbpm.services.task.audit.JPATaskLifeCycleEventListener;
 import org.kie.api.event.process.ProcessEventListener;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.process.WorkItemHandler;
@@ -24,7 +24,7 @@ public class JBPMRegisterableItemsFactory extends DefaultRegisterableItemsFactor
 	@Override
 	public List<TaskLifeCycleEventListener> getTaskListeners() {
 		List<TaskLifeCycleEventListener> listeners = super.getTaskListeners();	
-		listeners.add(new JPATaskLifeCycleEventListener(true));							
+		listeners.add(new JBPMTaskLifeCycleEventListener(true));							
 		return listeners;
 	}
 	
@@ -44,6 +44,7 @@ public class JBPMRegisterableItemsFactory extends DefaultRegisterableItemsFactor
 		SignallingTaskHandlerDecorator signallingTaskWrapper = new SignallingTaskHandlerDecorator(serviceTaskHandler, eventType);
 		
 		handlers.put("Service Task", signallingTaskWrapper);
+		handlers.put("email", new EmailWorkItemHandler("localhost","25","maheshsbrmnn@gmail.com","Suvimani@1940","true"));
 		
 		return handlers;
 	}

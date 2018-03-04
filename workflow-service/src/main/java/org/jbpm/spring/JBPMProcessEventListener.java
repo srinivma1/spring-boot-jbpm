@@ -1,5 +1,10 @@
 package org.jbpm.spring;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.camel.ExchangePattern;
+import org.apache.camel.ProducerTemplate;
 import org.kie.api.event.process.ProcessEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +15,8 @@ public class JBPMProcessEventListener implements ProcessEventListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JBPMProcessEventListener.class);
 	
+	private ProducerTemplate producerTemplate = BeanUtils.getBean(ProducerTemplate.class);
+	
 	@Override
 	public void afterNodeLeft(
 			org.kie.api.event.process.ProcessNodeLeftEvent event) {
@@ -19,6 +26,8 @@ public class JBPMProcessEventListener implements ProcessEventListener {
 	@Override
 	public void afterNodeTriggered(
 			org.kie.api.event.process.ProcessNodeTriggeredEvent event) {
+		
+		
 		LOGGER.info("AfterNodeTriggered Event");
 	}
 
@@ -51,6 +60,22 @@ public class JBPMProcessEventListener implements ProcessEventListener {
 	public void beforeNodeTriggered(
 			org.kie.api.event.process.ProcessNodeTriggeredEvent event) {
 		LOGGER.info("Before Node triggered. {} ", event.getNodeInstance().getNodeName());
+		if("Please approve".equals( event.getNodeInstance().getNodeName())) {
+		String message = (String)event.getNodeInstance().getVariable("message");
+		String sender = (String)event.getNodeInstance().getVariable("sender");
+		String reviewer = (String)event.getNodeInstance().getVariable("reviewer");
+		
+		
+		System.out.println("Sender is"+sender);
+		System.out.println("Reviewer is"+reviewer);
+		Map<String,Object> headers = new HashMap<String,Object>();
+	    if(message == null) {
+	    	message = "Please approve the request";
+	    }
+		headers.put("sender", sender);
+		headers.put("reviewer", reviewer);
+		//producerTemplate.sendBodyAndHeaders("direct:emailApproval", message,headers);
+		}
 	}
 
 	@Override
