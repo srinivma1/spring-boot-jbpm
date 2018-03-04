@@ -1,0 +1,19 @@
+import org.drools.core.process.core.datatype.impl.type.StringDataType
+ 
+[
+   // the Email notification work item
+   [
+     "name" : "email",
+     "parameters" : [
+       "From" : new StringDataType(),
+       "Reply-To" : new StringDataType(),
+       "To" : new StringDataType(),
+       "Cc" : new StringDataType(),
+       "Bcc" : new StringDataType(),
+       "Subject" : new StringDataType(),
+       "Body" : new StringDataType()
+     ],
+     "displayName" : "EmailNotification",
+   
+   ]
+]
