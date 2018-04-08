@@ -60,22 +60,9 @@ public class JBPMProcessEventListener implements ProcessEventListener {
 	public void beforeNodeTriggered(
 			org.kie.api.event.process.ProcessNodeTriggeredEvent event) {
 		LOGGER.info("Before Node triggered. {} ", event.getNodeInstance().getNodeName());
-		if("Please approve".equals( event.getNodeInstance().getNodeName())) {
-		String message = (String)event.getNodeInstance().getVariable("message");
-		String sender = (String)event.getNodeInstance().getVariable("sender");
-		String reviewer = (String)event.getNodeInstance().getVariable("reviewer");
 		
-		
-		System.out.println("Sender is"+sender);
-		System.out.println("Reviewer is"+reviewer);
-		Map<String,Object> headers = new HashMap<String,Object>();
-	    if(message == null) {
-	    	message = "Please approve the request";
-	    }
-		headers.put("sender", sender);
-		headers.put("reviewer", reviewer);
 		//producerTemplate.sendBodyAndHeaders("direct:emailApproval", message,headers);
-		}
+		
 	}
 
 	@Override

@@ -1,7 +1,9 @@
 package org.jbpm.spring.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -37,8 +39,9 @@ public class UserTaskController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public Collection<TaskSummary> getTasks() {		
 	    String userId = getAuthUser();
-	      
-		Collection<TaskSummary> tasks = runtimeDataService.getTasksAssignedAsPotentialOwner(userId, new QueryFilter(0, 100));
+	      List<String> groupIds= new ArrayList<String>();
+	      groupIds.add("manager");
+		Collection<TaskSummary> tasks = runtimeDataService.getTasksAssignedAsPotentialOwner(userId,groupIds, new QueryFilter(0, 100));
 
 		return tasks;
  

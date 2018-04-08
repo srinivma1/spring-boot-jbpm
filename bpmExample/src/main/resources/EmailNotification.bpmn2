@@ -35,6 +35,9 @@
         <tns:metaData name="elementname">
           <tns:metaValue><![CDATA[Please approve]]></tns:metaValue>
         </tns:metaData>
+        <tns:metaData name="customAsync">
+          <tns:metaValue><![CDATA[true]]></tns:metaValue>
+        </tns:metaData>
       </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
@@ -51,6 +54,7 @@
         <bpmn2:dataInput id="DataInput_22" itemSubjectRef="ItemDefinition_85" name="message"/>
         <bpmn2:dataInput id="DataInput_23" itemSubjectRef="ItemDefinition_85" name="sender"/>
         <bpmn2:dataInput id="DataInput_24" itemSubjectRef="ItemDefinition_85" name="reviewer"/>
+        <bpmn2:dataInput id="DataInput_1" name="NotStartedNotify"/>
         <bpmn2:dataOutput id="DataOutput_2" itemSubjectRef="ItemDefinition_85" name="messageContent"/>
         <bpmn2:inputSet id="_InputSet_2">
           <bpmn2:dataInputRefs>DataInput_13</bpmn2:dataInputRefs>
@@ -65,6 +69,7 @@
           <bpmn2:dataInputRefs>DataInput_22</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>DataInput_23</bpmn2:dataInputRefs>
           <bpmn2:dataInputRefs>DataInput_24</bpmn2:dataInputRefs>
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
         </bpmn2:inputSet>
         <bpmn2:outputSet id="OutputSet_2" name="Output Set">
           <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
@@ -96,6 +101,10 @@
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="DataInputAssociation_10">
         <bpmn2:targetRef>DataInput_17</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_2">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_5">manager</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_3">DataInput_17</bpmn2:to>
+        </bpmn2:assignment>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="DataInputAssociation_11">
         <bpmn2:targetRef>DataInput_18</bpmn2:targetRef>
@@ -129,15 +138,17 @@
         <bpmn2:sourceRef>reviewer</bpmn2:sourceRef>
         <bpmn2:targetRef>DataInput_24</bpmn2:targetRef>
       </bpmn2:dataInputAssociation>
+      <bpmn2:dataInputAssociation id="DataInputAssociation_1">
+        <bpmn2:targetRef>DataInput_1</bpmn2:targetRef>
+        <bpmn2:assignment id="Assignment_1">
+          <bpmn2:from xsi:type="bpmn2:tFormalExpression" id="FormalExpression_2">[from:Administrator|tousers:erics|togroups:manager|replyTo:|subject:Task needs attention|body:Dear group,&lt;br />&lt;br />There is a task waiting for you that needs your attention. Please do the needful Approve/reject. Process intance id is ${processInstanceId} and Task id is ${taskId}&lt;br />&lt;br />Regards,&lt;br />Administrator.]@[2m]</bpmn2:from>
+          <bpmn2:to xsi:type="bpmn2:tFormalExpression" id="FormalExpression_1">DataInput_1</bpmn2:to>
+        </bpmn2:assignment>
+      </bpmn2:dataInputAssociation>
       <bpmn2:dataOutputAssociation id="DataOutputAssociation_2">
         <bpmn2:sourceRef>DataOutput_2</bpmn2:sourceRef>
         <bpmn2:targetRef>decisionMessage</bpmn2:targetRef>
       </bpmn2:dataOutputAssociation>
-      <bpmn2:potentialOwner id="PotentialOwner_2" name="Potential Owner 2">
-        <bpmn2:resourceAssignmentExpression id="ResourceAssignmentExpression_2">
-          <bpmn2:formalExpression id="FormalExpression_26">#{reviewer}</bpmn2:formalExpression>
-        </bpmn2:resourceAssignmentExpression>
-      </bpmn2:potentialOwner>
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="SequenceFlow_3" tns:priority="1" sourceRef="StartEvent_1" targetRef="UserTask_2"/>
     <bpmn2:sequenceFlow id="SequenceFlow_4" tns:priority="1" sourceRef="UserTask_2" targetRef="EndEvent_1"/>
@@ -158,7 +169,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2" isExpanded="true">
         <dc:Bounds height="50.0" width="110.0" x="241.0" y="60.0"/>
-        <bpmndi:BPMNLabel>
+        <bpmndi:BPMNLabel id="BPMNLabel_1">
           <dc:Bounds height="15.0" width="86.0" x="253.0" y="77.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
@@ -166,14 +177,14 @@
         <di:waypoint xsi:type="dc:Point" x="136.0" y="85.0"/>
         <di:waypoint xsi:type="dc:Point" x="188.0" y="85.0"/>
         <di:waypoint xsi:type="dc:Point" x="241.0" y="85.0"/>
-        <bpmndi:BPMNLabel/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_EndEvent_1">
         <di:waypoint xsi:type="dc:Point" x="351.0" y="85.0"/>
         <di:waypoint xsi:type="dc:Point" x="380.0" y="85.0"/>
         <di:waypoint xsi:type="dc:Point" x="380.0" y="93.0"/>
         <di:waypoint xsi:type="dc:Point" x="410.0" y="93.0"/>
-        <bpmndi:BPMNLabel/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
